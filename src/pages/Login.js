@@ -3,9 +3,12 @@ import gql from "graphql-tag";
 import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/auth";
+import { useContext } from "react";
 
 function Login(props) {
   const navigate = useNavigate();
+  const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
   const [registerUser, setRegisterUser] = useState({
     username: "",
@@ -20,8 +23,10 @@ function Login(props) {
   };
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
     update(_, result) {
-      console.log("📩", result);
+      // console.log("📩", result.data.login);
+      context.login(result.data.login);
       navigate("/");
+      // console.log("📩", context);
     },
     onError(err) {
       setErrors(
