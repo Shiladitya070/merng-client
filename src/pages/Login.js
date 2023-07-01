@@ -23,10 +23,8 @@ function Login(props) {
   };
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
     update(_, result) {
-      // console.log("📩", result.data.login);
-      context.login(result.data.login);
+      context.Login(result.data.login);
       navigate("/");
-      // console.log("📩", context);
     },
     onError(err) {
       setErrors(
@@ -34,7 +32,6 @@ function Login(props) {
           ? err.graphQLErrors[0].extensions.errors
           : {}
       );
-      // console.log("😒", Object.keys(errors).length > 0 && "hi");
     },
   });
   const onSubmit = (event) => {
@@ -86,6 +83,10 @@ const REGISTER_USER = gql`
   mutation Login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
       token
+      username
+      email
+      created_at
+      id
     }
   }
 `;
