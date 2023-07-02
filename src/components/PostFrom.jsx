@@ -10,8 +10,8 @@ function PostFrom() {
     body: "",
   });
   const navigate = useNavigate();
-
-  const [createPost, { error }] = useMutation(CREATE_NEW_POST, {
+  const [errors, setErrors] = useState("");
+  const [createPost] = useMutation(CREATE_NEW_POST, {
     update(proxy, result) {
       const data = proxy.readQuery({
         query: FETCH_POST_QUERY,
@@ -30,6 +30,9 @@ function PostFrom() {
       }
       navigate("/");
     },
+    onError(err) {
+      setErrors(err && err.graphQLErrors[0].message);
+    },
     variables: newPost,
   });
   const onSubmit = (event) => {
@@ -44,20 +47,30 @@ function PostFrom() {
     });
   };
   return (
-    <Form onSubmit={onSubmit}>
-      <h2>Create post</h2>
-      <Form.Field>
-        <Form.Input
-          placeholder="what you would like to say..."
-          value={newPost.body}
-          name="body"
-          onChange={onChange}
-        />
-        <Button type="submit" primary>
-          Post
-        </Button>
-      </Form.Field>
-    </Form>
+    <>
+      <Form onSubmit={onSubmit}>
+        <h2>Create post</h2>
+        <Form.Field>
+          <Form.Input
+            placeholder="what you would like to say..."
+            value={newPost.body}
+            name="body"
+            onChange={onChange}
+            error={errors ? true : false}
+          />
+          <Button type="submit" primary>
+            Post
+          </Button>
+        </Form.Field>
+      </Form>
+      {errors && (
+        <div className="ui error message" style={{ marginBottom: 20 }}>
+          <ul className="list">
+            <li>{errors}</li>
+          </ul>
+        </div>
+      )}
+    </>
   );
 }
 
