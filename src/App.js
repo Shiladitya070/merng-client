@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import { Container } from "semantic-ui-react";
 import { AuthProvider } from "./context/auth";
+import SinglePost from "./components/SinglePost";
 
 function App() {
   return (
@@ -15,9 +16,10 @@ function App() {
         <Container>
           <Navbar />
           <Routes>
-            <Route exact path="/" Component={Home} />
+            <Route exact forceRefresh={true} path="/" Component={Home} />
             <Route exact path="/login" Component={Login} />
             <Route exact path="/register" Component={Register} />
+            <Route exact path="/posts/:postId" Component={SinglePost} />
           </Routes>
         </Container>
       </Router>

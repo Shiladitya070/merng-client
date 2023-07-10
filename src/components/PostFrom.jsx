@@ -49,7 +49,6 @@ function PostFrom() {
   return (
     <>
       <Form onSubmit={onSubmit}>
-        <h2>Create post</h2>
         <Form.Field>
           <Form.Input
             placeholder="what you would like to say..."

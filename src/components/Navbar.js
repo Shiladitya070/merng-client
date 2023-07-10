@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu } from "semantic-ui-react";
+import { Image, Menu } from "semantic-ui-react";
 import { AuthContext } from "../context/auth";
 
 function Navbar() {
@@ -22,10 +22,18 @@ function Navbar() {
         as={Link}
         to="/"
       />
+      {user && (
+        <Image
+          size="mini"
+          src={`https://api.dicebear.com/6.x/pixel-art/svg?seed=${user.username}`}
+        />
+      )}
 
       <Menu.Menu position="right">
         {user ? (
-          <Menu.Item name="logout" onClick={Logout} />
+          <>
+            <Menu.Item name="logout" onClick={Logout} />
+          </>
         ) : (
           <>
             <Menu.Item

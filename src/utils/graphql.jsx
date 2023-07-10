@@ -22,5 +22,31 @@ const FETCH_POST_QUERY = gql`
     }
   }
 `;
-
-export { FETCH_POST_QUERY };
+const CREATE_COMMNET = gql`
+  mutation CreateComment($postId: ID!, $body: String!) {
+    createComment(postId: $postId, body: $body) {
+      id
+      comments {
+        id
+        body
+        createdAt
+      }
+      comment_count
+    }
+  }
+`;
+const DELETE_COMMENT = gql`
+  mutation DeletePostComment($postId: ID!, $commentId: ID!) {
+    deletePostComment(postId: $postId, commentId: $commentId) {
+      id
+      comments {
+        id
+        username
+        createdAt
+        body
+      }
+      comment_count
+    }
+  }
+`;
+export { FETCH_POST_QUERY, DELETE_COMMENT, CREATE_COMMNET };
