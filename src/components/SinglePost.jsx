@@ -3,7 +3,15 @@ import gql from "graphql-tag";
 import moment from "moment";
 import React, { useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Button, Card, Form, Grid, Icon, Image } from "semantic-ui-react";
+import {
+  Button,
+  Card,
+  Form,
+  Grid,
+  Icon,
+  Image,
+  Popup,
+} from "semantic-ui-react";
 import LikeButton from "./LikeButton";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth";
@@ -55,23 +63,42 @@ function SinglePost() {
               <Card.Description>{posts.body}</Card.Description>
             </Card.Content>
             <Card.Content extra>
-              <LikeButton
-                user={user}
-                post={{
-                  id: posts.id,
-                  like_count: posts.like_count,
-                  likes: posts.likes,
-                }}
+              <Popup
+                content="Click to like this"
+                trigger={
+                  <LikeButton
+                    user={user}
+                    post={{
+                      id: posts.id,
+                      like_count: posts.like_count,
+                      likes: posts.likes,
+                    }}
+                  />
+                }
               />
-              <Button color="black" basic as={Link} to={`/posts/${posts.id}`}>
-                <Icon name="comment" />
-                {posts.comment_count}
-              </Button>
+
+              <Popup
+                content="Comments"
+                inverted
+                trigger={
+                  <Button
+                    color="black"
+                    basic
+                    as={Link}
+                    to={`/posts/${posts.id}`}
+                  >
+                    <Icon name="comment" />
+                    {posts.comment_count}
+                  </Button>
+                }
+              />
               {user && user.username === posts.username && (
                 <DeletePost post={posts} />
               )}
             </Card.Content>
           </Card>
+          {/* Comment section */}
+          {/* add comments */}
           {user && (
             <Card fluid>
               <Card.Content>
@@ -100,6 +127,7 @@ function SinglePost() {
               </Card.Content>
             </Card>
           )}
+          {/* show all comments */}
           {posts.comments.map((comment) => (
             <Comments comment={comment} postId={postId} user={user} />
           ))}

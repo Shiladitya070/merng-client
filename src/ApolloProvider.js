@@ -2,7 +2,7 @@ import { InMemoryCache, ApolloClient, createHttpLink } from "@apollo/client";
 import { setContext } from "apollo-link-context";
 
 const httplink = createHttpLink({
-  uri: "http://localhost:5000",
+  uri: "https://merng-backend.fly.dev/",
 });
 
 const authLink = setContext(() => {
